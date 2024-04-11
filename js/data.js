@@ -1,7 +1,7 @@
 const fallbackProfileDataObj = {
     "name": "Jason",
     "summary": "An experienced software engineer with a strong track record of developing and delivering products. Constantly seeks innovative solutions to everyday problems in a fast-paced environment. A quick learner and intensely interested in <b>software development</b>, <b>project management</b>, <b>data analysis</b>, and <b>business process analysis</b>. Eager to develop new skills while maximizing critical and analytical skills to make meaningful contributions to the organization.",
-    "picture_filename": "profile.png",
+    "picture_url": "https://drive.google.com/thumbnail?id=1Z4Zsis9tK1aZSQzA-JjwVct8lBgWSuui&sz=w1000",
     "cv_url": "https://drive.google.com/file/d/1eFLoBc3tufBGMd6GyafmuZJGFuSjbc1U/view?usp=sharing",
     "location": "Jakarta, Indonesia",
     "roles": [

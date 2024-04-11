@@ -1,6 +1,7 @@
 $(document).ready(function() {
     // *** Init Data ***
     buildProfileDataObj();
+    $('[resume-data-key="picture-url"]').attr("src", profileDataObj["picture_url"]);
     $('[resume-data-key="name"]').text(profileDataObj["name"]);
     $('[resume-data-key="summary"]').html(profileDataObj["summary"]);
     $('[resume-data-key="cv-url"]').attr("href", profileDataObj["cv_url"]);
