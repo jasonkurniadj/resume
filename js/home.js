@@ -6,6 +6,7 @@ $(document).ready(function() {
     $('[resume-data-key="summary"]').html(profileDataObj["summary"]);
     $('[resume-data-key="cv-url"]').attr("href", profileDataObj["cv_url"]);
     $('[resume-data-key="statistics"]').html(buildStatisticHTML());
+    $('[resume-data-key="skills"]').html(buildSkillHTML());
     $('[resume-data-key="works"]').html(buildWorkExperienceHTML());
     $('[resume-data-key="education"]').html(buildEducationHTML());
     $('[resume-data-key="certifications"]').html(buildCertificationHTML());

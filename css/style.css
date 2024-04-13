@@ -170,6 +170,15 @@ nav .active a {color: var(--dark-red) !important;}
     font-weight: 700;
 }
 
+/*** Skills ***/
+#skills ul {
+    margin: -1rem 0 0 0;
+    padding: 0;
+    list-style: none;
+    columns: 4;
+    text-align: center;
+}
+
 /*** Work Experiences ***/
 #worksList {
     height: 200vh;
@@ -286,7 +295,7 @@ nav .active a {color: var(--dark-red) !important;}
 
 #contactEmail:hover a {color: #C71610;}
 #contactLinkedIn:hover a {color: #0077B5;}
-#contactGithub:hover a {color: var(--light-gray);}
+#contactGitHub:hover a {color: var(--light-gray);}
 #contactInstagram:hover a {color: #BC2A8D;}
 
 /*** Footer ***/
@@ -322,9 +331,15 @@ footer {
 
     .about-stat-item {padding: 0;}
 
+    #skills ul {columns: 3;}
+
     .slick-prev, .slick-next {
         width: 1rem;
         font-size: 1.4rem;
         margin: 0 .4rem;
     }
+}
+
+@media (max-width: 540px) {
+    #skills ul {columns: 2;}
 }

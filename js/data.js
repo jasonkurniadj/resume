@@ -34,6 +34,41 @@ const fallbackProfileDataObj = {
             "icon_class": "fa-coffee"
         }
     ],
+    "skills": {
+        "foreign_languages": [
+            {"item": "Indonesian", "level": "Native"},
+            {"item": "English", "level": "Professional working"}
+        ],
+        "technical": [
+            {"item": "Go", "rating": 8.5},
+            {"item": "Java", "rating": 7.5},
+            {"item": ".NET", "rating": 7.0},
+            {"item": "Python", "rating": 8.0},
+            {"item": "PHP", "rating": 7.0},
+            {"item": "Javascript", "rating": 7.5},
+            {"item": "C/C++", "rating": 4.5},
+            {"item": "PostgreSQL", "rating": 8.0},
+            {"item": "MySQL", "rating": 7.5},
+            {"item": "Microsoft SQL Server", "rating": 7.0},
+            {"item": "MongoDB", "rating": 6.0},
+            {"item": "Redis", "rating": 7.0},
+            {"item": "Elasticsearch", "rating": 5.0},
+            {"item": "NSQ", "rating": 7.5},
+            {"item": "RabbitMQ", "rating": 6.5},
+            {"item": "GraphQL", "rating": 4.0},
+            {"item": "Git", "rating": 8.0},
+            {"item": "Docker", "rating": 7.5},
+            {"item": "Jenkins", "rating": 6.0},
+            {"item": "Terraform", "rating": 4.5},
+            {"item": "Ansible", "rating": 4.0},
+            {"item": "Prometheus", "rating": 6.5},
+            {"item": "Grafana", "rating": 6.5},
+            {"item": "Google Cloud Platform", "rating": 7.5},
+            {"item": "Amazon Web Services", "rating": 7.5},
+            {"item": "Microsoft Azure", "rating": 7.0},
+            {"item": "Tableau", "rating": 6.0}
+        ]
+    },
     "works": [
         {
             "company": "Tokopedia",
@@ -280,7 +315,7 @@ const fallbackProfileDataObj = {
             "url": "https://linkedin.com/in/jasonkurniadj"
         },
         {
-            "type": "Github",
+            "type": "GitHub",
             "icon_class": "fa-github",
             "value": "jasonkurniadj",
             "url": "https://github.com/jasonkurniadj"
@@ -313,6 +348,7 @@ function buildStatisticHTML() {
             </div>
         </div>
     `;
+    const partitionNum = 2;
 
     let html = "";
     profileDataObj["statistics"].forEach(function(item, idx) {
@@ -321,8 +357,24 @@ function buildStatisticHTML() {
         currItem = currItem.replaceAll("{{value}}", item["value"]);
         currItem = currItem.replaceAll("{{name}}", item["name"]);
 
-        if(idx%2 === 0) currItem = '<div class="d-flex my-2">' + currItem;
-        else if((idx+1)%2 === 0) currItem += "</div>";
+        if(idx%partitionNum === 0) currItem = '<div class="d-flex my-2">' + currItem;
+        else if((idx+1)%partitionNum === 0) currItem += "</div>";
+
+        html += currItem;
+    });
+
+    return html;
+}
+
+function buildSkillHTML() {
+    const template = `
+        <li class="my-4">{{item}}</li>
+    `;
+
+    let html = "";
+    profileDataObj["skills"]["technical"].forEach(function(item, idx) {
+        let currItem = template;
+        currItem = currItem.replaceAll("{{item}}", item["item"]);
 
         html += currItem;
     });

@@ -46,11 +46,11 @@
 .timeline-icon .fa {
     position: relative;
     color: var(--white);
-    transform: translate(59%,60%);
+    transform: translate(59%,62%);
     font-size: 1.4rem;
 }
 .fa-graduation-cap, .fa-handshake-o {
-    transform: translate(38%,60%) !important;
+    transform: translate(38%,62%) !important;
 }
 
 .timeline-content {
