@@ -1,29 +1,53 @@
 $(document).ready(function() {
     // *** Init Data ***
-    buildProfileDataObj();
-    $('[resume-data-key="picture-url"]').attr("src", profileDataObj["picture_url"]);
-    $('[resume-data-key="name"]').text(profileDataObj["name"]);
-    $('[resume-data-key="summary"]').html(profileDataObj["summary"]);
-    $('[resume-data-key="cv-url"]').attr("href", profileDataObj["cv_url"]);
-    $('[resume-data-key="statistics"]').html(buildStatisticHTML());
-    $('[resume-data-key="skills"]').html(buildSkillHTML());
-    $('[resume-data-key="works"]').html(buildWorkExperienceHTML());
-    $('[resume-data-key="education"]').html(buildEducationHTML());
-    $('[resume-data-key="certifications"]').html(buildCertificationHTML());
-    $('[resume-data-key="projects"]').html(buildProjectHTML());
-    $('[resume-data-key="voluntary"]').html(buildVoluntaryHTML());
-    $('[resume-data-key="contact"]').html(buildContactHTML());
+    const profileURL = "https://raw.githubusercontent.com/jasonkurniadj/personal-datastore/main/basic-profile.json";
+    let profile = new Profile(profileURL);
+    profile.fetchData().then(() => {
+        // *** Set HTML ***
+        data = profile.data;
+        $('[resume-data-key="picture-url"]').attr("src", data["picture_url"]);
+        $('[resume-data-key="name"]').text(data["name"]);
+        $('[resume-data-key="summary"]').html(data["summary"]);
+        $('[resume-data-key="cv-url"]').attr("href", data["cv_url"]);
+        $('[resume-data-key="statistics"]').html(profile.buildStatisticsHTML());
+        $('[resume-data-key="skills"]').html(profile.buildSkillsHTML());
+        $('[resume-data-key="works"]').html(profile.buildWorksHTML());
+        $('[resume-data-key="education"]').html(profile.buildEducationHTML());
+        $('[resume-data-key="certifications"]').html(profile.buildCertificationsHTML());
+        $('[resume-data-key="projects"]').html(profile.buildProjectsHTML());
+        $('[resume-data-key="voluntaries"]').html(profile.buildVoluntariesHTML());
+        $('[resume-data-key="contacts"]').html(profile.buildContactsHTML());
+
+        // *** Typing Effect ***
+        new Typed("#role", {
+            strings: data["roles"],
+            typeSpeed: 55,
+            backSpeed: 30,
+            loop: true,
+        });
+
+        // *** Certificates Slider ***
+        $("#certificateList").slick({
+            slidesToShow: 4,
+            slidesToScroll: 1,
+            autoplay: true,
+            autoplaySpeed: 2900,
+            arrows: true,
+            prevArrow: $(".slick-prev"),
+            nextArrow: $(".slick-next"),
+            lazyLoad: "ondemand",
+            pauseOnHover: true,
+            responsive: [{
+                breakpoint: 768,
+                settings: {
+                    slidesToShow: 1
+                }
+            }]
+        });
+    });
 
     // *** Particles Effect ***
     buildParticles();
-
-    // *** Typing Effect ***
-    _typed = new Typed("#role", {
-        strings: profileDataObj["roles"],
-        typeSpeed: 55,
-        backSpeed: 30,
-        loop: true,
-    });
 
     // *** Experience Read More ***
     let worksList = $("#worksList")
@@ -53,25 +77,6 @@ $(document).ready(function() {
         }
         $(this).attr("btn-action", action)
         $(this).html(html);
-    });
-
-    // *** Certificates Slider ***
-    $("#certificateList").slick({
-        slidesToShow: 4,
-        slidesToScroll: 1,
-        autoplay: true,
-        autoplaySpeed: 3000,
-        arrows: true,
-        prevArrow: $(".slick-prev"),
-        nextArrow: $(".slick-next"),
-        lazyLoad: "ondemand",
-        pauseOnHover: true,
-        responsive: [{
-            breakpoint: 768,
-            settings: {
-                slidesToShow: 1
-            }
-        }]
     });
 
     // *** Footer ***
