@@ -286,4 +286,58 @@ class Profile extends Resume {
     }    
 }
 
-class Project extends Resume {}
+class Project extends Resume {
+    constructor(url) {
+        super(url);
+        this.type = "project";
+    }
+
+    buildProjectsHTML() {
+        const template = `
+            <div class="col-md-3">
+                <div class="card border-0 mb-4">
+                    <div class="position-relative">
+                        <span>{{category}}</span>
+                        <!-- <img src="{{url}}" class="card-img-top" alt="{{name}}"> -->
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{name}}</h5>
+                        <p class="card-text text-justify">{{description}}</p>
+                    </div>
+                </div>
+            </div>
+        `;
+    
+        let categories = [];
+        let html = "";
+
+        this.data.forEach(function(item, idx) {
+            let currItem = template;
+            currItem = currItem.replaceAll("{{category}}", item["category"]);
+            currItem = currItem.replaceAll("{{name}}", item["name"]);
+            currItem = currItem.replaceAll("{{description}}", item["short_description"]);
+            
+            html += currItem;
+        });
+
+        return html;
+    }
+
+    buildProjectsFilterHTML(categories) {
+        const template = `
+            <input type="checkbox" class="btn-check" id="{{id}}" checked>
+            <label class="btn btn-outline-primary" for="{{id}}">{{description}}</label>
+        `
+
+        let html = "";
+        categories.forEach(function(item, idx) {
+            let currItem = template;
+            currItem = currItem.replaceAll("{{id}}", "category" + item.replaceAll(" ", ""));
+            currItem = currItem.replaceAll("{{description}}", item);
+
+            html += currItem;
+        });
+
+        return html;
+    }
+}
