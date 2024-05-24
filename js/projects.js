@@ -5,6 +5,6 @@ $(document).ready(function() {
     project.fetchData().then(() => {
         // *** Set HTML ***
         data = project.data;
-        $('[resume-data-key="projects"]').html(project.buildProjectsHTML());
+        $('[resume-data-key="projects"]').html(project.buildProjectsHTML("detail.html"));
     });
 });

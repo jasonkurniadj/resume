@@ -185,37 +185,6 @@ class Profile extends Resume {
         return html;
     }
     
-    buildProjectsHTML() {
-        const template = `
-            <div class="col-md-3">
-                <div class="card border-0 mb-4">
-                    <div class="position-relative">
-                        <span>{{category}}</span>
-                        <!-- <img src="{{url}}" class="card-img-top" alt="{{name}}"> -->
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">{{name}}</h5>
-                        <p class="card-text text-justify">{{description}}</p>
-                    </div>
-                </div>
-            </div>
-        `;
-    
-        let html = ""
-        this.data["projects"].forEach(function(item, idx) {
-            if(!item["is_show"]) return;
-    
-            let currItem = template;
-            currItem = currItem.replaceAll("{{category}}", item["category"]);
-            currItem = currItem.replaceAll("{{name}}", item["name"]);
-            currItem = currItem.replaceAll("{{description}}", item["description"]);
-    
-            html += currItem;
-        });
-    
-        return html;
-    }
-    
     buildVoluntariesHTML() {
         const template = `
             <div class="timeline-item">
@@ -292,17 +261,18 @@ class Project extends Resume {
         this.type = "project";
     }
 
-    buildProjectsHTML() {
+    buildProjectsHTML(redirectURL, opts) {
         const template = `
             <div class="col-md-3">
                 <div class="card border-0 mb-4">
                     <div class="position-relative">
                         <span>{{category}}</span>
-                        <!-- <img src="{{url}}" class="card-img-top" alt="{{name}}"> -->
+                        <img src="{{bannerUrl}}" class="card-img-top" alt="{{name}}">
                     </div>
                     <div class="card-body">
                         <h5 class="card-title">{{name}}</h5>
                         <p class="card-text text-justify">{{description}}</p>
+                        <small><a href="{{redirectUrl}}" class="color-light-red">Learn More...</a></small>
                     </div>
                 </div>
             </div>
@@ -312,14 +282,33 @@ class Project extends Resume {
         let html = "";
 
         this.data.forEach(function(item, idx) {
+            if(opts !== undefined) {
+                let isContinue;
+                Object.keys(opts).forEach(function(key, idx) {
+                    if(item[key] !== opts[key]) isContinue = true;
+                });
+                if(isContinue) return;
+            }
+
+            let bannerUrl = (redirectURL.indexOf("/") === -1 ? "../" : "") + "assets/project-banner/" + item["category"].toLowerCase().replaceAll(" ", "-") + ".webp";
+            if(item["banner_url"] !== null && item["banner_url"] !== "") {
+                bannerUrl = item["banner_url"];
+            }
+            
+            let encoded = btoa(JSON.stringify(item));
+
             let currItem = template;
+            currItem = currItem.replaceAll("{{bannerUrl}}", bannerUrl);
             currItem = currItem.replaceAll("{{category}}", item["category"]);
             currItem = currItem.replaceAll("{{name}}", item["name"]);
             currItem = currItem.replaceAll("{{description}}", item["short_description"]);
-            
+            currItem = currItem.replaceAll("{{redirectUrl}}", redirectURL+"?token="+encoded);
+
+            categories.push(item["category"]);
             html += currItem;
         });
 
+        this.categories = categories;
         return html;
     }
 
@@ -337,6 +326,65 @@ class Project extends Resume {
 
             html += currItem;
         });
+
+        return html;
+    }
+
+    buildProjectDetailHTML(item) {
+        const template = `
+            <img src="{{bannerUrl}}" alt="" class="w-100 p-0 m-0">
+
+            <div class="container col-md-8">
+                <div class="my-4 text-center">
+                    <h2 class="fw-bold">{{projectName}}</h2>
+                    <small><i class="fa fa-calendar"></i> {{startDate}} - {{endDate}}</small>
+                </div>
+
+                <div>
+                    <span>{{category}}</span>
+                    <p class="color-light-red">{{tags}}</p>
+
+                    <p class="my-4">{{shortDescription}}</p>
+                    <p class="my-4">{{description}}</p>
+                </div>
+
+                <div>
+                    {{media}}
+                </div>
+            </div>
+        `
+
+        let bannerUrl = "../assets/project-banner/" + item["category"].toLowerCase().replaceAll(" ", "-") + ".webp";
+        if(item["banner_url"] !== null && item["banner_url"] !== "") {
+            bannerUrl = item["banner_url"];
+        }
+
+        let startDate = new Date(item["start_date"]).toLocaleDateString("en-US", {month:"short", year:"numeric"});
+        let endDate = "Present"
+        if(item["end_date"] !== null && item["end_date"].trim() !== "") {
+            endDate = new Date(item["end_date"]).toLocaleDateString("en-US", {month:"short", year:"numeric"});
+        }
+
+        let tags = "";
+        item["tags"].forEach(function(item, idx) {
+            tags += "#"+item+" ";
+        });
+
+        let media = "<i>No media</i>";
+        if(item["media"] !== null && item["media"].length > 0) {
+            media = "";
+        }
+
+        let html = template;
+        html = html.replaceAll("{{bannerUrl}}", bannerUrl);
+        html = html.replaceAll("{{projectName}}", item["name"]);
+        html = html.replaceAll("{{startDate}}", startDate);
+        html = html.replaceAll("{{endDate}}", endDate);
+        html = html.replaceAll("{{category}}", item["category"]);
+        html = html.replaceAll("{{tags}}", tags);
+        html = html.replaceAll("{{shortDescription}}", item["short_description"]);
+        html = html.replaceAll("{{description}}", item["description"]==="" ? "TBA" : item["description"]);
+        html = html.replaceAll("{{media}}", media);
 
         return html;
     }

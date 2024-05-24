@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    // *** Init Data ***
+    // *** Init Profile Data ***
     const profileURL = "https://raw.githubusercontent.com/jasonkurniadj/personal-datastore/main/basic-profile.json";
     let profile = new Profile(profileURL);
     profile.fetchData().then(() => {
@@ -14,7 +14,6 @@ $(document).ready(function() {
         $('[resume-data-key="works"]').html(profile.buildWorksHTML());
         $('[resume-data-key="education"]').html(profile.buildEducationHTML());
         $('[resume-data-key="certifications"]').html(profile.buildCertificationsHTML());
-        $('[resume-data-key="projects"]').html(profile.buildProjectsHTML());
         $('[resume-data-key="voluntaries"]').html(profile.buildVoluntariesHTML());
         $('[resume-data-key="contacts"]').html(profile.buildContactsHTML());
 
@@ -46,6 +45,13 @@ $(document).ready(function() {
         });
     });
 
+    // *** Init Profile Data ***
+    const projectURL = "https://raw.githubusercontent.com/jasonkurniadj/personal-datastore/main/projects.json";
+    let project = new Project(projectURL);
+    project.fetchData().then(() => {
+        $('[resume-data-key="projects"]').html(project.buildProjectsHTML("projects/detail.html", {"is_home_display": true}));
+    });
+    
     // *** Particles Effect ***
     buildParticles();
 

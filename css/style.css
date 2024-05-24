@@ -22,6 +22,19 @@ section {
 
 .text-justify {text-align: justify;}
 
+.breadcrumb-container {background-color: var(--primary);}
+
+.breadcrumb {margin: 0;}
+
+.breadcrumb-item {color: var(--light-gray) !important;}
+
+.breadcrumb-item+.breadcrumb-item::before {color: var(--dark-red);}
+
+.breadcrumb-item a {
+    color: var(--light-red) !important;
+    text-decoration: none;
+}
+
 .card {
     background-color: var(--gray);
     color: var(--white);
@@ -36,6 +49,8 @@ section {
     border-radius: 999px !important;
 }
 .btn:hover {background-color: var(--dark-red) !important;}
+
+.btn-outline-primary {border-color: var(--dark-red) !important;}
 
 input, textarea {
     background-color: var(--dark-gray) !important;
@@ -62,6 +77,8 @@ textarea {
 }
 
 .bg-primary {background-color: var(--primary) !important;}
+
+.color-light-red {color: var(--light-red);}
 
 /*** Ticker ***/
 #tickerInfo {
@@ -229,7 +246,7 @@ nav .active a {color: var(--dark-red) !important;}
     opacity: 0;
 }
 
-#certificateList .card .card-body span {
+#certificateList .card .card-body span, #projectDetail span {
     background-color: var(--light-red);
     font-size: .8rem;
     padding: .3rem 1rem;
@@ -254,12 +271,31 @@ nav .active a {color: var(--dark-red) !important;}
     font-size: .8rem;
     padding: .3rem 1rem;
     border-radius: 0 5px 0 .5rem;
-    /* position: absolute;
+    position: absolute;
     top: 0;
-    right: 0; */
+    right: 0;
 }
 
 #btnProjectsViewMore {margin-top: -2rem;}
+
+/*** Projects Page ***/
+#projectsFilter .btn {
+    background-color: inherit !important;
+    font-weight: normal !important;
+    padding: .5rem 1rem !important;
+    border-radius: 9px !important;
+    margin: 0 .25rem;
+}
+
+#projectsFilter input[type=checkbox]:checked + label {
+    background-color: var(--dark-red) !important;
+}
+
+/*** Project Detail Page ***/
+#projectDetail span {
+    display: inline-block;
+    margin-bottom: .3rem !important;
+}
 
 /*** Contact ***/
 #contact img {
