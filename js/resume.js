@@ -252,7 +252,7 @@ class Profile extends Resume {
         });
     
         return html;
-    }    
+    }
 }
 
 class Project extends Resume {
@@ -263,7 +263,7 @@ class Project extends Resume {
 
     buildProjectsHTML(redirectURL, opts) {
         const template = `
-            <div class="col-md-3">
+            <div class="col-md-3 {{classCategory}}">
                 <div class="card border-0 mb-4">
                     <div class="position-relative">
                         <span>{{category}}</span>
@@ -290,6 +290,9 @@ class Project extends Resume {
                 if(isContinue) return;
             }
 
+            let category = item["category"];
+            if(categories.indexOf(category) === -1) categories.push(category);
+
             let bannerUrl = (redirectURL.indexOf("/") === -1 ? "../" : "") + "assets/project-banner/" + item["category"].toLowerCase().replaceAll(" ", "-") + ".webp";
             if(item["banner_url"] !== null && item["banner_url"] !== "") {
                 bannerUrl = item["banner_url"];
@@ -298,24 +301,24 @@ class Project extends Resume {
             let encoded = btoa(JSON.stringify(item));
 
             let currItem = template;
+            currItem = currItem.replaceAll("{{classCategory}}", "category" + category.replaceAll(" ", ""));
             currItem = currItem.replaceAll("{{bannerUrl}}", bannerUrl);
-            currItem = currItem.replaceAll("{{category}}", item["category"]);
+            currItem = currItem.replaceAll("{{category}}", category);
             currItem = currItem.replaceAll("{{name}}", item["name"]);
             currItem = currItem.replaceAll("{{description}}", item["short_description"]);
             currItem = currItem.replaceAll("{{redirectUrl}}", redirectURL+"?token="+encoded);
 
-            categories.push(item["category"]);
             html += currItem;
         });
 
-        this.categories = categories;
+        this.categories = categories.sort();
         return html;
     }
 
     buildProjectsFilterHTML(categories) {
         const template = `
-            <input type="checkbox" class="btn-check" id="{{id}}" checked>
-            <label class="btn btn-outline-primary" for="{{id}}">{{description}}</label>
+            <input type="checkbox" class="btn-check" id="{{id}}">
+            <label class="btn btn-outline-primary mb-2" for="{{id}}">{{description}}</label>
         `
 
         let html = "";

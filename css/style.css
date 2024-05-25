@@ -276,6 +276,8 @@ nav .active a {color: var(--dark-red) !important;}
     right: 0;
 }
 
+#projectList .card-body {padding: var(--bs-card-spacer-y) .1rem;}
+
 #btnProjectsViewMore {margin-top: -2rem;}
 
 /*** Projects Page ***/

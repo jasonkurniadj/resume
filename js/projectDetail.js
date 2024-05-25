@@ -5,7 +5,7 @@ $(document).ready(function() {
     
     let errorHandle = function(isShowAlert, msg) {
         if(isShowAlert) window.alert(msg);
-        else console.log(msg);
+        else console.error(msg);
     };
 
     window.location.search.replace(/([^&|\?=]+)=?([^&]*)(?:&+|$)/g, function(match, key, value) {
@@ -21,7 +21,7 @@ $(document).ready(function() {
 
     let token = queryMap["token"];
     if(token === undefined) {
-        errorHandle(isShowAlert, "Undefined");
+        errorHandle(isShowAlert, "Token undefined");
         window.location.href = fallbackUrl;
         return;
     }
@@ -30,7 +30,7 @@ $(document).ready(function() {
     try {
         jsonDetail = JSON.parse(atob(token));
     } catch(e) {
-        errorHandle(isShowAlert, "Parse Error");
+        errorHandle(isShowAlert, "Parse token error");
         window.location.href = fallbackUrl;
         return;
     }
