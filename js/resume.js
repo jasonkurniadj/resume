@@ -2,16 +2,50 @@ class Resume {
     constructor(url) {
         this.url = url;
         this.data = null;
+
+        this._cookieExpDuration = 3600; // in seconds
     }
 
     async fetchData(fallbackData={}) {
         try {
+            let cookieName = "_" + this.type + "_data_";
+            let cookieValue = this._getCookie(cookieName);
+
+            if(cookieValue !== null && cookieValue !== "" && cookieValue !== "{}") {
+                try {
+                    this.data = JSON.parse(atob(cookieValue));
+                    return;
+                } catch(error) {
+                    console.error("Parse cookie error");
+                }
+            }
+
             let resp = await fetch(this.url);
             this.data = await resp.json();
+
+            this._setCookie(cookieName, btoa(JSON.stringify(this.data)), this._cookieExpDuration);
         } catch(error) {
-            console.error('Error fetching data:', error);
+            console.error("Fetching data error");
             this.data = fallbackData;
         }
+    }
+
+    _setCookie(cName, cValue, expSeconds) {
+        let date = new Date();
+        date.setTime(date.getTime() + (expSeconds*1000));
+        document.cookie = cName + "=" + cValue + "; expires=" + date.toUTCString() + "; path=/";
+    }
+
+    _getCookie(cName) {
+        const name = cName + "=";
+        const cDecoded = decodeURIComponent(document.cookie);
+        const cArr = cDecoded.split("; ");
+        
+        let res = null;
+        cArr.forEach(val => {
+            if(val.indexOf(name) === 0) res = val.substring(name.length);
+        });
+        return res;
     }
 
     // TODO: Refactor build methods
