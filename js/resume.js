@@ -380,12 +380,12 @@ class Project extends Resume {
                 <div>
                     <span>{{category}}</span>
                     <p class="color-light-red">{{tags}}</p>
-
-                    <p class="my-4">{{shortDescription}}</p>
-                    <p class="my-4">{{description}}</p>
+                    <div class="my-4 text-justify">{{description}}</div>
                 </div>
 
                 <div>
+                    <hr/>
+                    <p class="color-light-red"><b>Attachment</b></p>
                     {{media}}
                 </div>
             </div>
@@ -419,8 +419,7 @@ class Project extends Resume {
         html = html.replaceAll("{{endDate}}", endDate);
         html = html.replaceAll("{{category}}", item["category"]);
         html = html.replaceAll("{{tags}}", tags);
-        html = html.replaceAll("{{shortDescription}}", item["short_description"]);
-        html = html.replaceAll("{{description}}", item["description"]==="" ? "TBA" : item["description"]);
+        html = html.replaceAll("{{description}}", item["description"]==="" ? item["short_description"] : item["description"]);
         html = html.replaceAll("{{media}}", media);
 
         return html;
